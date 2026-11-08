@@ -208,3 +208,12 @@ site xcx60 main 2aae10 1e2e1000 @page:x9 bd404d20
 site xcx60 main 2dcb14 2d478e62 @page:x9 2d478e62 bd404d24 1e240842
 site xcx60 main 2e5d58 1e3e1001 @page:x9 bd404d21 1e214021
 site xcx60 main 304dd0 1e3e1001 @page:x9 bd404d21 1e214021
+# The HUD's text windows (#116: the yellow tips at the lower left, among others): opening one (main+0x5d870c,
+# main+0x5d8ebc, main+0x5d966c) stores its data row's DispTime column, a count of 30 fps frames, at +0x2a of the window,
+# and each update (main+0x5d88c8, main+0x5d9078, main+0x5d9828) takes 1 off it and closes the window at 0. Above 30 fps
+# the window closed early, less than a second at 150 fps. The count is divided by the patch page's +0x4c (30 / frame
+# rate) where it is stored, so it lasts DispTime / 30 s at any frame rate. x9, w0 and s0-s1 are free: x0 is reloaded and
+# a call follows at each.
+site xcx60 main 5d87a8 79005680 @page:x9 1e230000 bd404d21 1e211800 1e250000 79005680
+site xcx60 main 5d8f58 79005680 @page:x9 1e230000 bd404d21 1e211800 1e250000 79005680
+site xcx60 main 5d9708 79005680 @page:x9 1e230000 bd404d21 1e211800 1e250000 79005680
